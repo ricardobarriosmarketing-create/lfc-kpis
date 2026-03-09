@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KPI Dashboard - Multi-Plataforma</title>
+    <!-- Tailwind CSS para diseño rápido y responsivo -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js para los gráficos interactivos -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .card { @apply bg-white p-6 rounded-xl shadow-sm border border-gray-100 transition-all duration-300; }
+        .card:hover { @apply shadow-md; }
+        .stat-value { @apply text-2xl font-bold text-gray-800; }
+        .stat-label { @apply text-xs text-gray-500 uppercase tracking-widest font-semibold; }
+        .trend-up { @apply text-green-500 text-xs font-bold; }
+        .trend-down { @apply text-red-500 text-xs font-bold; }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen p-4 md:p-8 font-sans">
+    <div class="max-w-7xl mx-auto">
+        <!-- Encabezado Principal -->
+        <div class="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
+            <div>
+                <h1 class="text-3xl font-black text-gray-900 tracking-tight">Social Analytics Pro</h1>
+                <p class="text-gray-500">Panel de control de rendimiento semanal</p>
+            </div>
+            <div class="flex items-center gap-3">
+                <span class="text-sm font-medium text-gray-400">Plataforma:</span>
+                <select id="platformSelect" onchange="updateDashboard()" class="bg-white border border-gray-200 rounded-xl px-4 py-2.5 font-bold text-gray-700 shadow-sm focus:ring-2 focus:ring-blue-500 outline-none cursor-pointer">
+                    <option value="instagram">Instagram</option>
+                    <option value="youtube">YouTube</option>
+                    <option value="facebook">Facebook</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Rejilla de KPIs -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <!-- Alcance -->
+            <div class="card">
+                <p class="stat-label" id="label-1">Alcance</p>
+                <div class="flex items-center gap-2 mt-1">
+                    <span class="stat-value" id="val-1">0</span>
+                    <span class="trend-up" id="trend-1">↑ 0%</span>
+                </div>
+                <div class="w-full bg-gray-100 h-2 mt-4 rounded-full overflow-hidden">
+                    <div id="bar-1" class="h-full w-0 transition-all duration-1000 ease-out"></div>
+                </div>
+            </div>
+
+            <!-- Engagement -->
+            <div class="card">
+                <p class="stat-label" id="label-2">Engagement</p>
+                <div class="flex items-center gap-2 mt-1">
+                    <span class="stat-value" id="val-2">0%</span>
+                    <span class="trend-up" id="trend-2">↑ 0%</span>
+                </div>
+                <div class="w-full bg-gray-100 h-2 mt-4 rounded-full overflow-hidden">
+                    <div id="bar-2" class="h-full w-0 transition-all duration-1000 ease-out"></div>
+                </div>
+            </div>
+
+            <!-- Vistas -->
+            <div class="card">
+                <p class="stat-label" id="label-3">Reproducciones</p>
+                <div class="flex items-center gap-2 mt-1">
+                    <span class="stat-value" id="val-3">0</span>
+                    <span class="trend-down" id="trend-3">↓ 0%</span>
+                </div>
+                <div class="w-full bg-gray-100 h-2 mt-4 rounded-full overflow-hidden">
+                    <div id="bar-3" class="h-full w-0 transition-all duration-1000 ease-out"></div>
+                </div>
+            </div>
+
+            <!-- Interacciones -->
+            <div class="card">
+                <p class="stat-label" id="label-4">Interacciones</p>
+                <div class="flex items-center gap-2 mt-1">
+                    <span class="stat-value" id="val-4">0</span>
+                    <span class="trend-up" id="trend-4">↑ 0%</span>
+                </div>
+                <div class="w-full bg-gray-100 h-2 mt-4 rounded-full overflow-hidden">
+                    <div id="bar-4" class="h-full w-0 transition-all duration-1000 ease-out"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Gráficos -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+            <div class="card">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="font-bold text-gray-800 text-lg">Evolución del Periodo</h3>
+                    <div id="statusIndicator" class="px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest"></div>
+                </div>
+                <div class="h-[300px]">
+                    <canvas id="lineChart"></canvas>
+                </div>
+            </div>
+            <div class="card">
+                <h3 class="font-bold text-gray-800 text-lg mb-6">Mix de Contenido (Alcance)</h3>
+                <div class="h-[300px]">
+                    <canvas id="pieChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabla de Contenido Top -->
+        <div class="card overflow-hidden">
+            <div class="flex items-center justify-between mb-6">
+                <h3 class="font-bold text-gray-800 text-lg">Mejor Contenido Semanal</h3>
+                <span class="text-xs text-gray-400 italic">* Datos basados en rendimiento orgánico</span>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left">
+                    <thead class="bg-gray-50">
+                        <tr class="text-gray-400 text-[10px] uppercase tracking-widest">
+                            <th class="px-4 py-3 font-semibold">Publicación</th>
+                            <th class="px-4 py-3 font-semibold">Alcance/Vistas</th>
+                            <th class="px-4 py-3 font-semibold">Engagement</th>
+                            <th class="px-4 py-3 font-semibold">Categoría</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-sm divide-y divide-gray-100" id="contentTable"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // CONFIGURACIÓN DE DATOS SEMANALES (Modifica estos valores cada semana)
+        const DATA = {
+            instagram: {
+                mainColor: '#E1306C',
+                labels: ['Cuentas Alcanzadas', 'Engagement Rate', 'Vistas Reels', 'Interacciones'],
+                metrics: { v1: "54.2K", t1: "12%", v2: "5.1%", t2: "0.4%", v3: "92K", t3: "5%", v4: "14,102", t4: "9%" },
+                bars: [85, 55, 90, 70],
+                lineData: [12000, 18000, 15000, 22000, 19000, 25000, 28000],
+                pieLabels: ['Reels', 'Carruseles', 'Estáticos', 'Stories'],
+                pieData: [55, 25, 10, 10],
+                table: [
+                    { title: "Tutorial: Estrategia IA", reach: "42.1K", eng: "7.2%", cat: "Video" },
+                    { title: "Detrás de Cámaras", reach: "12.3K", eng: "4.1%", cat: "Vlog" },
+                    { title: "Q&A en Stories", reach: "8.5K", eng: "12.0%", cat: "Interactivo" }
+                ]
+            },
+            youtube: {
+                mainColor: '#FF0000',
+                labels: ['Impresiones', 'CTR (Click-Through)', 'Vistas Totales', 'Nuevos Subs'],
+                metrics: { v1: "145K", t1: "18%", v2: "9.2%", t2: "1.1%", v3: "310K", t3: "22%", v4: "+1,450", t4: "15%" },
+                bars: [70, 90, 95, 75],
+                lineData: [40000, 45000, 60000, 55000, 80000, 95000, 110000],
+                pieLabels: ['Videos Largos', 'Shorts', 'Transmisiones'],
+                pieData: [65, 30, 5],
+                table: [
+                    { title: "Review Completa X", reach: "120K", eng: "8.5%", cat: "Contenido" },
+                    { title: "Short: Unboxing", reach: "85K", eng: "11.2%", cat: "Shorts" },
+                    { title: "Live de Lanzamiento", reach: "15K", eng: "15.0%", cat: "Directo" }
+                ]
+            },
+            facebook: {
+                mainColor: '#1877F2',
+                labels: ['Alcance Pagado', 'Engagement', 'Vistas de Video', 'Clicks Web'],
+                metrics: { v1: "82K", t1: "3%", v2: "2.8%", t2: "0.2%", v3: "45K", t3: "1%", v4: "940", t4: "10%" },
+                bars: [60, 35, 50, 45],
+                lineData: [15000, 14000, 16000, 15500, 17000, 16500, 18000],
+                pieLabels: ['Videos', 'Imágenes', 'Enlaces'],
+                pieData: [40, 35, 25],
+                table: [
+                    { title: "Oferta Flash Verano", reach: "48K", eng: "3.5%", cat: "Ads" },
+                    { title: "Noticia Corporativa", reach: "21K", eng: "1.2%", cat: "Orgánico" },
+                    { title: "Evento en Vivo", reach: "13K", eng: "5.8%", cat: "Comunidad" }
+                ]
+            }
+        };
+
+        let lineChart, pieChart;
+
+        function initCharts() {
+            const lineCtx = document.getElementById('lineChart').getContext('2d');
+            lineChart = new Chart(lineCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab', 'Dom'],
+                    datasets: [{
+                        label: 'Interacción Diaria',
+                        data: [],
+                        borderWidth: 3,
+                        pointRadius: 4,
+                        pointBackgroundColor: '#fff',
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: { 
+                    responsive: true, 
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: { y: { beginAtZero: true, grid: { display: false } }, x: { grid: { display: false } } }
+                }
+            });
+
+            const pieCtx = document.getElementById('pieChart').getContext('2d');
+            pieChart = new Chart(pieCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: [],
+                    datasets: [{ data: [], backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0'], borderWidth: 0 }]
+                },
+                options: { 
+                    responsive: true, 
+                    maintainAspectRatio: false,
+                    cutout: '70%',
+                    plugins: { legend: { position: 'bottom', labels: { usePointStyle: true, padding: 20 } } }
+                }
+            });
+        }
+
+        function updateDashboard() {
+            const platform = document.getElementById('platformSelect').value;
+            const data = DATA[platform];
+
+            // Colores y Estados Visuales
+            const statusIndicator = document.getElementById('statusIndicator');
+            statusIndicator.innerText = platform;
+            statusIndicator.style.backgroundColor = data.mainColor + '15';
+            statusIndicator.style.color = data.mainColor;
+
+            // Actualizar Textos y Barras de Progreso
+            for(let i=1; i<=4; i++) {
+                document.getElementById(`label-${i}`).innerText = data.labels[i-1];
+                document.getElementById(`val-${i}`).innerText = data.metrics[`v${i}`];
+                document.getElementById(`trend-${i}`).innerText = data.metrics[`t${i}`];
+                const bar = document.getElementById(`bar-${i}`);
+                bar.style.width = data.bars[i-1] + '%';
+                bar.style.backgroundColor = data.mainColor;
+            }
+
+            // Actualizar Gráfico de Líneas
+            lineChart.data.datasets[0].data = data.lineData;
+            lineChart.data.datasets[0].borderColor = data.mainColor;
+            lineChart.data.datasets[0].backgroundColor = data.mainColor + '15';
+            lineChart.update();
+
+            // Actualizar Gráfico de Dona
+            pieChart.data.labels = data.pieLabels;
+            pieChart.data.datasets[0].data = data.pieData;
+            pieChart.update();
+
+            // Actualizar Tabla de Contenido
+            const tbody = document.getElementById('contentTable');
+            tbody.innerHTML = data.table.map(row => `
+                <tr class="hover:bg-gray-50 transition">
+                    <td class="px-4 py-4 font-bold text-gray-700">${row.title}</td>
+                    <td class="px-4 py-4 text-gray-600">${row.reach}</td>
+                    <td class="px-4 py-4 font-medium text-gray-800">${row.eng}</td>
+                    <td class="px-4 py-4">
+                        <span class="px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-tighter" style="background:${data.mainColor}11; color:${data.mainColor}">
+                            ${row.cat}
+                        </span>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // Iniciar al cargar la página
+        window.onload = () => {
+            initCharts();
+            updateDashboard();
+        };
+    </script>
+</body>
+</html>
