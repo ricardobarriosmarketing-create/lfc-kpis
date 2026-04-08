@@ -219,5 +219,13 @@ with col_sim3:
         <div style="background-color: #1E2127; padding: 25px; border-radius: 10px; border: 1px solid #303641;">
             <h4 style="color: #A0AEC0; margin-top:0;">Proyección de Resultados</h4>
             <div style="display: flex; justify-content: space-between; margin-top: 15px;">
-                <div><span style="font-size: 14px; color: #888;">Llamadas Asist
-
+                <div><span style="font-size: 14px; color: #888;">Llamadas Asistidas</span><br><span style="font-size: 24px; font-weight: bold; color: #FECB52;">{asistencias_sim:.0f}</span></div>
+                <div><span style="font-size: 14px; color: #888;">Cierres</span><br><span style="font-size: 24px; font-weight: bold; color: #00CC96;">{cierres_sim:.0f}</span></div>
+            </div>
+            <hr style="border-color: #303641; margin: 15px 0;">
+            <div style="display: flex; justify-content: space-between;">
+                <div><span style="font-size: 14px; color: #888;">Ingreso Bruto</span><br><span style="font-size: 28px; font-weight: bold; color: #FFFFFF;">${retorno_proyectado:,.0f}</span></div>
+                <div style="text-align: right;"><span style="font-size: 14px; color: #888;">ROI</span><br><span style="font-size: 28px; font-weight: bold; color: #4DFFD2;">{roi:.0f}%</span></div>
+            </div>
+        </div>
+    """, unsafe_allow_html=True)
