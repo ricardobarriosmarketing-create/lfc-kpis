@@ -4,8 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard Marketing | ClickUp Abril</title>
+    <!-- Tailwind CSS para el diseño oscuro y moderno -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Plotly.js para los gráficos interactivos -->
     <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+    <!-- Lucide Icons para los iconos -->
     <script src="https://unpkg.com/lucide@latest"></script>
 
     <style>
@@ -16,7 +19,6 @@
             overflow-x: hidden;
         }
         
-        /* Estilos tipo "Glassmorphism" (cristal oscuro) */
         .glass-card {
             background-color: rgba(2, 6, 23, 0.4);
             border: 1px solid rgba(255, 255, 255, 0.1);
@@ -27,7 +29,6 @@
             overflow: hidden;
         }
 
-        /* Estilos del slider (barra de presupuesto) */
         input[type=range] {
             -webkit-appearance: none;
             width: 100%;
@@ -38,7 +39,7 @@
             height: 20px;
             width: 20px;
             border-radius: 50%;
-            background: #e879f9; /* fuchsia-400 */
+            background: #e879f9; 
             cursor: pointer;
             margin-top: -8px;
         }
@@ -53,22 +54,25 @@
 </head>
 <body class="min-h-screen relative text-white">
 
+    <!-- Luces de fondo -->
     <div class="pointer-events-none fixed inset-0 overflow-hidden z-0">
         <div class="absolute -top-40 left-1/2 h-[520px] w-[520px] -translate-x-1/2 rounded-full bg-fuchsia-500/15 blur-[120px]"></div>
         <div class="absolute top-48 -left-24 h-[520px] w-[520px] rounded-full bg-cyan-500/15 blur-[120px]"></div>
         <div class="absolute bottom-0 right-0 h-[520px] w-[520px] rounded-full bg-violet-500/15 blur-[120px]"></div>
     </div>
 
+    <!-- Contenido Principal -->
     <div class="relative z-10 mx-auto max-w-7xl px-4 py-8 md:px-6">
         
+        <!-- HEADER -->
         <div class="mb-6 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
             <div>
                 <div class="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-white/70">
                     <i data-lucide="layout-dashboard" class="h-4 w-4 text-white/80"></i>
                     Dashboard Marketing, ClickUp "Abril Contenido"
                 </div>
-                <h1 class="mt-3 text-2xl font-semibold tracking-tight">Panel Interactivo para justificar inversión fuerte en Ads</h1>
-                <p class="mt-2 max-w-2xl text-sm text-white/65">Enfoque PM + CMO: visibiliza capacidad de producción (ClickUp funnel), detecta cuellos de botella y proyecta ROI al escalar presupuesto.</p>
+                <h1 class="mt-3 text-2xl font-semibold tracking-tight">Panel Interactivo para justificar inversión en Ads</h1>
+                <p class="mt-2 max-w-2xl text-sm text-white/65">Enfoque PM + CMO: visibiliza capacidad de producción (ClickUp funnel), detecta cuellos de botella y proyecta ROI.</p>
             </div>
             <div class="glass-card !p-4 max-w-xs">
                 <div class="flex items-center gap-3">
@@ -77,13 +81,15 @@
                     </div>
                     <div>
                         <p class="text-xs text-white/60">Lectura ejecutiva</p>
-                        <p class="text-sm font-semibold text-white" id="narrative-text">Tenemos inventario creativo robusto...</p>
+                        <p class="text-sm font-semibold text-white" id="narrative-text">Tenemos inventario creativo suficiente, con margen de mejora; Operación saludable.</p>
                     </div>
                 </div>
             </div>
         </div>
 
+        <!-- KPI CARDS (2 Columnas, sin la de presupuesto) -->
         <div class="grid grid-cols-1 gap-4 md:grid-cols-2 mb-6">
+            <!-- Productividad -->
             <div class="glass-card">
                 <div class="pointer-events-none absolute inset-0 bg-gradient-to-br from-emerald-500/20 via-cyan-500/15 to-violet-500/15"></div>
                 <div class="relative flex justify-between gap-4">
@@ -91,14 +97,15 @@
                         <div class="rounded-xl border border-white/10 bg-white/5 p-2"><i data-lucide="trending-up" class="h-5 w-5 text-white/90"></i></div>
                         <div>
                             <p class="text-sm text-white/70">Tasa de productividad</p>
-                            <p class="mt-1 text-2xl font-semibold tracking-tight text-white" id="kpi-prod">38% (30/80)</p>
-                            <p class="mt-1 text-xs text-white/60">Tarjetas completadas vs total mensual</p>
+                            <p class="mt-1 text-2xl font-semibold tracking-tight text-white" id="kpi-prod">29% (15/52)</p>
+                            <p class="mt-1 text-xs text-white/60">Tarjetas completadas vs total del mes</p>
                         </div>
                     </div>
-                    <span class="rounded-full border border-white/10 bg-black/30 px-3 py-1 text-xs text-white/70 h-fit" id="tag-prod">Capacidad alta</span>
+                    <span class="rounded-full border border-white/10 bg-black/30 px-3 py-1 text-xs text-white/70 h-fit" id="tag-prod">Capacidad en progreso</span>
                 </div>
             </div>
 
+            <!-- Semáforo -->
             <div class="glass-card">
                 <div class="pointer-events-none absolute inset-0 bg-gradient-to-br from-amber-500/20 via-rose-500/10 to-violet-500/15"></div>
                 <div class="relative flex justify-between gap-4">
@@ -120,7 +127,9 @@
             </div>
         </div>
 
+        <!-- FILA 2: EMBUDO Y ALERTAS -->
         <div class="grid grid-cols-1 gap-4 lg:grid-cols-3 mb-6">
+            <!-- Embudo -->
             <div class="glass-card lg:col-span-2">
                 <div class="mb-4 flex items-center gap-2">
                     <div class="rounded-xl border border-white/10 bg-white/5 p-2"><i data-lucide="target" class="h-5 w-5 text-white/90"></i></div>
@@ -131,31 +140,36 @@
                 </div>
                 
                 <div class="mb-4 grid grid-cols-2 gap-3 sm:grid-cols-4">
+                    <!-- Grabación -->
                     <div class="rounded-2xl border border-white/10 bg-black/20 p-3">
                         <div class="flex items-center justify-between"><p class="text-xs text-white/70">Grabación</p><span class="h-2.5 w-2.5 rounded-full bg-cyan-400"></span></div>
                         <p class="mt-2 text-xl font-semibold" id="val-grab">18</p>
-                        <p class="mt-1 text-xs text-white/50">23% del total</p>
+                        <p class="mt-1 text-xs text-white/50">35% del total</p>
                     </div>
+                    <!-- Revisión (Corregido a 2) -->
                     <div class="rounded-2xl border border-white/10 bg-black/20 p-3">
-                        <div class="flex items-center justify-between"><p class="text-xs text-white/70">Por Revisión</p><span class="h-2.5 w-2.5 rounded-full bg-amber-400"></span></div>
-                        <p class="mt-2 text-xl font-semibold" id="val-rev">15</p>
-                        <p class="mt-1 text-xs text-white/50">19% del total</p>
+                        <div class="flex items-center justify-between"><p class="text-xs text-white/70">Por Revisión</p><span class="h-2.5 w-2.5 rounded-full bg-emerald-400"></span></div>
+                        <p class="mt-2 text-xl font-semibold" id="val-rev">2</p>
+                        <p class="mt-1 text-xs text-white/50">4% del total</p>
                     </div>
+                    <!-- Listos -->
                     <div class="rounded-2xl border border-white/10 bg-black/20 p-3">
                         <div class="flex items-center justify-between"><p class="text-xs text-white/70">Listos</p><span class="h-2.5 w-2.5 rounded-full bg-violet-400"></span></div>
                         <p class="mt-2 text-xl font-semibold" id="val-listos">17</p>
-                        <p class="mt-1 text-xs text-white/50">21% del total</p>
+                        <p class="mt-1 text-xs text-white/50">33% del total</p>
                     </div>
+                    <!-- Completadas (Corregido a 15) -->
                     <div class="rounded-2xl border border-white/10 bg-black/20 p-3">
                         <div class="flex items-center justify-between"><p class="text-xs text-white/70">Completadas</p><span class="h-2.5 w-2.5 rounded-full bg-emerald-400"></span></div>
-                        <p class="mt-2 text-xl font-semibold" id="val-comp">30</p>
-                        <p class="mt-1 text-xs text-white/50">38% del total</p>
+                        <p class="mt-2 text-xl font-semibold" id="val-comp">15</p>
+                        <p class="mt-1 text-xs text-white/50">29% del total</p>
                     </div>
                 </div>
 
                 <div id="chart-funnel" style="height: 300px; width: 100%;"></div>
             </div>
 
+            <!-- Alertas -->
             <div class="glass-card lg:col-span-1">
                 <div class="mb-4 flex items-center gap-2">
                     <div class="rounded-xl border border-white/10 bg-white/5 p-2"><i data-lucide="alert-triangle" class="h-5 w-5 text-white/90"></i></div>
@@ -166,7 +180,8 @@
                 </div>
                 
                 <div class="space-y-3" id="alerts-container">
-                    </div>
+                    <!-- Dinámico -->
+                </div>
 
                 <div class="mt-4 rounded-2xl border border-white/10 bg-black/20 p-4">
                     <p class="text-xs text-white/60">Recomendación PM rápida:</p>
@@ -179,7 +194,9 @@
             </div>
         </div>
 
+        <!-- FILA 3: CORRELACIONES -->
         <div class="grid grid-cols-1 gap-4 lg:grid-cols-3 mb-6">
+            <!-- Line/Area Chart -->
             <div class="glass-card lg:col-span-2">
                 <div class="mb-4 flex items-center gap-2">
                     <div class="rounded-xl border border-white/10 bg-white/5 p-2"><i data-lucide="arrow-up-right" class="h-5 w-5 text-white/90"></i></div>
@@ -191,6 +208,7 @@
                 <div id="chart-weekly" style="height: 320px; width: 100%;"></div>
             </div>
 
+            <!-- Scatter Chart -->
             <div class="glass-card lg:col-span-1">
                 <div class="mb-4 flex items-center gap-2">
                     <div class="rounded-xl border border-white/10 bg-white/5 p-2"><i data-lucide="trending-up" class="h-5 w-5 text-white/90"></i></div>
@@ -203,6 +221,7 @@
             </div>
         </div>
 
+        <!-- FILA 4: SIMULADOR -->
         <div class="glass-card mb-6">
             <div class="mb-4 flex items-center gap-2">
                 <div class="rounded-xl border border-white/10 bg-white/5 p-2"><i data-lucide="sliders-horizontal" class="h-5 w-5 text-white/90"></i></div>
@@ -213,6 +232,7 @@
             </div>
 
             <div class="grid grid-cols-1 gap-4 lg:grid-cols-3">
+                <!-- Controles -->
                 <div class="rounded-2xl border border-white/10 bg-black/20 p-5">
                     <div class="flex items-center justify-between mb-4">
                         <p class="text-sm font-semibold text-white">Presupuesto mensual</p>
@@ -227,11 +247,11 @@
                     <div class="mt-5 space-y-3">
                         <div class="flex items-center justify-between rounded-xl border border-white/10 bg-white/5 px-3 py-2">
                             <span class="text-xs text-white/70">Contenido listo</span>
-                            <span class="text-xs font-semibold" id="lbl-ready">47</span>
+                            <span class="text-xs font-semibold" id="lbl-ready">32</span>
                         </div>
                         <div class="flex items-center justify-between rounded-xl border border-white/10 bg-white/5 px-3 py-2">
                             <span class="text-xs text-white/70">Capacidad leads (por contenido)</span>
-                            <span class="text-xs font-semibold" id="lbl-cap">5,640</span>
+                            <span class="text-xs font-semibold" id="lbl-cap">3,840</span>
                         </div>
                     </div>
 
@@ -246,12 +266,12 @@
                     </div>
                 </div>
 
+                <!-- Resultados -->
                 <div class="lg:col-span-2 rounded-2xl border border-white/10 bg-black/20 p-5">
                     <div class="grid grid-cols-1 gap-3 md:grid-cols-4 mb-4">
                         <div class="rounded-2xl border border-white/10 bg-slate-950/40 p-4">
                             <p class="text-xs text-white/60">CPL estimado</p>
                             <p class="mt-1 text-lg font-semibold" id="res-cpl">$14.50</p>
-                            <p class="mt-1 text-xs text-white/55">Subida por saturación</p>
                         </div>
                         <div class="rounded-2xl border border-white/10 bg-slate-950/40 p-4">
                             <p class="text-xs text-white/60">Leads</p>
@@ -284,45 +304,35 @@
         </div>
     </div>
 
+    <!-- SCRIPT DE LÓGICA -->
     <script>
         // Formateadores
         const fmtInt = (n) => new Intl.NumberFormat("es-ES").format(Math.round(n));
         const fmtPct = (n) => new Intl.NumberFormat("es-ES", { style: "percent", maximumFractionDigits: 0 }).format(n);
         const fmtMoney = (n) => new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 }).format(n);
 
-        // Variables base (ClickUp Simulador)
-        const total = 80;
+        // Variables base ACTUALIZADAS
         const grabacion = 18;
-        const revision = 15;
+        const revision = 2; // Corregido
         const listos = 17;
-        const completadas = 30;
-        const readyToRun = listos + completadas; // 47
-        const productivity = completadas / total;
+        const completadas = 15; // Corregido
+        
+        const total = grabacion + revision + listos + completadas; // 52
+        const readyToRun = listos + completadas; // 32
 
         // ROI Simulator Params
         const avgOrderValue = 250;
         const closeRate = 0.055;
         const cplBase = 7.5;
 
-        // Inicialización y cálculos
+        // Inicialización
         window.onload = () => {
-            // Inicializar Iconos Lucide
             lucide.createIcons();
-
-            // Setup estático
             document.getElementById('lbl-ready').innerText = readyToRun;
-            
-            // Renderizar gráficos
             renderFunnel();
             renderWeekly();
-            
-            // Generar alertas
             generateAlerts();
-
-            // Atar slider
             document.getElementById('sim-budget').addEventListener('input', calculateROI);
-            
-            // Calcular primera vez
             calculateROI();
         };
 
@@ -330,10 +340,9 @@
             const budget = parseFloat(document.getElementById('sim-budget').value);
             document.getElementById('lbl-presupuesto').innerText = fmtMoney(budget);
 
-            const leadsCapacity = readyToRun * 120; // 47 * 120 = 5640
+            const leadsCapacity = readyToRun * 120; 
             document.getElementById('lbl-cap').innerText = fmtInt(leadsCapacity);
 
-            // cpl = cplBase * (1 + (budget / 20000)^0.55)
             const cpl = cplBase * (1 + Math.pow(budget / 20000, 0.55));
             const leadsByBudget = budget / cpl;
             const leads = Math.round(Math.min(leadsByBudget, leadsCapacity));
@@ -342,7 +351,6 @@
             const roi = budget > 0 ? (revenue - budget) / budget : 0;
             const isConstrained = leadsByBudget > leadsCapacity;
 
-            // Actualizar textos
             document.getElementById('res-cpl').innerText = fmtMoney(cpl);
             document.getElementById('res-leads').innerText = fmtInt(leads);
             document.getElementById('res-sales').innerText = fmtInt(sales);
@@ -356,22 +364,19 @@
             else if(roi >= 0.15) { roiEl.className = "text-xl font-semibold text-amber-200"; tagRoi.innerText = "Razonable, optimiza ads"; }
             else { roiEl.className = "text-xl font-semibold text-rose-300"; tagRoi.innerText = "Requiere ajustes"; }
 
-            // Alerta Box
             const alertBox = document.getElementById('sim-alert-box');
-            const alertIcon = document.getElementById('sim-alert-icon');
             const alertTitle = document.getElementById('sim-alert-title');
             const alertDesc = document.getElementById('sim-alert-desc');
 
             if (isConstrained) {
                 alertBox.className = "mt-4 rounded-2xl border p-4 border-amber-500/30 bg-amber-500/10 text-amber-200";
                 alertTitle.innerText = "Limitado por inventario creativo";
-                alertDesc.innerText = "El presupuesto es alto, pero el rendimiento se frena por falta de contenido listo. Acelera ClickUp.";
+                alertDesc.innerText = "El presupuesto es alto, pero el rendimiento se frena por falta de contenido listo.";
                 lucide.createIcons({icons: { AlertTriangle }, nameAttr: 'data-lucide', attrs: {class: "h-5 w-5 mt-0.5"} });
             } else {
                 alertBox.className = "mt-4 rounded-2xl border p-4 border-emerald-500/30 bg-emerald-500/10 text-emerald-200";
                 alertTitle.innerText = "Escala soportada por contenido";
                 alertDesc.innerText = "El presupuesto está dentro del límite operativo de contenido listo.";
-                // Reset to check
             }
         }
 
@@ -379,16 +384,16 @@
             const container = document.getElementById('alerts-container');
             let html = '';
 
-            // Revisión
             if (revision >= 15) {
-                html += `<div class="rounded-2xl border p-4 border-rose-500/30 bg-rose-500/10 text-rose-200"><div class="flex items-start gap-3"><i data-lucide="alert-triangle" class="mt-0.5 h-5 w-5"></i><div><p class="text-sm font-semibold">Alerta: ${revision} tarjetas estancadas en "Por Revisión"</p><p class="mt-1 text-xs opacity-90">Riesgo directo para escalar Ads: sin aprobación, no hay contenido. Prioriza revisiones.</p></div></div></div>`;
+                html += `<div class="rounded-2xl border p-4 border-rose-500/30 bg-rose-500/10 text-rose-200"><div class="flex items-start gap-3"><i data-lucide="alert-triangle" class="mt-0.5 h-5 w-5"></i><div><p class="text-sm font-semibold">Alerta: ${revision} tarjetas estancadas en "Por Revisión"</p><p class="mt-1 text-xs opacity-90">Riesgo directo para escalar Ads.</p></div></div></div>`;
             } else {
-                html += `<div class="rounded-2xl border p-4 border-emerald-500/30 bg-emerald-500/10 text-emerald-200"><div class="flex items-start gap-3"><i data-lucide="check-circle-2" class="mt-0.5 h-5 w-5"></i><div><p class="text-sm font-semibold">Revisión bajo control</p></div></div></div>`;
+                html += `<div class="rounded-2xl border p-4 border-emerald-500/30 bg-emerald-500/10 text-emerald-200"><div class="flex items-start gap-3"><i data-lucide="check-circle-2" class="mt-0.5 h-5 w-5"></i><div><p class="text-sm font-semibold">Revisión bajo control (${revision} tarjeta/s)</p><p class="mt-1 text-xs opacity-90">Buen flujo de aprobaciones hacia pauta.</p></div></div></div>`;
             }
 
-            // Supply
             if (readyToRun >= 40) {
-                html += `<div class="rounded-2xl border p-4 border-emerald-500/30 bg-emerald-500/10 text-emerald-200"><div class="flex items-start gap-3"><i data-lucide="check-circle-2" class="mt-0.5 h-5 w-5"></i><div><p class="text-sm font-semibold">Capacidad alta: ${readyToRun} piezas listas</p><p class="mt-1 text-xs opacity-90">Argumento fuerte para invertir: hay inventario para sostener pruebas A/B.</p></div></div></div>`;
+                html += `<div class="rounded-2xl border p-4 border-emerald-500/30 bg-emerald-500/10 text-emerald-200"><div class="flex items-start gap-3"><i data-lucide="check-circle-2" class="mt-0.5 h-5 w-5"></i><div><p class="text-sm font-semibold">Capacidad alta: ${readyToRun} piezas listas</p><p class="mt-1 text-xs opacity-90">Argumento fuerte para invertir.</p></div></div></div>`;
+            } else if (readyToRun >= 25) {
+                html += `<div class="rounded-2xl border p-4 border-amber-500/30 bg-amber-500/10 text-amber-200"><div class="flex items-start gap-3"><i data-lucide="alert-triangle" class="mt-0.5 h-5 w-5"></i><div><p class="text-sm font-semibold">Capacidad moderada: ${readyToRun} piezas listas</p><p class="mt-1 text-xs opacity-90">Margen de mejora. Produce un poco más antes de escalar agresivamente.</p></div></div></div>`;
             }
 
             container.innerHTML = html;
@@ -400,7 +405,7 @@
                 x: ['Grabación', 'Por Revisión', 'Listos', 'Completadas'],
                 y: [grabacion, revision, listos, completadas],
                 type: 'bar',
-                marker: { color: ['#22d3ee', '#fbbf24', '#a78bfa', '#34d399'], width: 1 },
+                marker: { color: ['#22d3ee', '#10b981', '#a78bfa', '#10b981'], width: 1 },
                 text: [grabacion, revision, listos, completadas],
                 textposition: 'auto',
             }];
@@ -418,7 +423,6 @@
         }
 
         function renderWeekly() {
-            // Simulando la data de 4 semanas
             const dist = [0.20, 0.24, 0.26, 0.30];
             const weeks = ['Sem 1', 'Sem 2', 'Sem 3', 'Sem 4'];
             let supplyArr = [], leadsArr = [], salesArr = [];
@@ -439,7 +443,7 @@
 
             const trace1 = { x: weeks, y: supplyArr, name: 'Supply (Mkt)', type: 'scatter', mode: 'lines', fill: 'tozeroy', line: {color: '#a78bfa'}, fillcolor: 'rgba(167, 139, 250, 0.15)' };
             const trace2 = { x: weeks, y: leadsArr, name: 'Leads', type: 'scatter', mode: 'lines+markers', line: {color: '#22d3ee', width: 3}, yaxis: 'y2' };
-            const trace3 = { x: weeks, y: salesArr, name: 'Ventas', type: 'scatter', mode: 'lines+markers', line: {color: '#34d399', width: 3}, yaxis: 'y2' };
+            const trace3 = { x: weeks, y: salesArr, name: 'Ventas', type: 'scatter', mode: 'lines+markers', line: {color: '#10b981', width: 3}, yaxis: 'y2' };
 
             const layoutComposed = {
                 paper_bgcolor: 'rgba(0,0,0,0)',
